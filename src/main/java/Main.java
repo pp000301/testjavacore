@@ -1,11 +1,11 @@
 import task1.TestConditionalOperator;
 import task2.GetCollectionsStudents;
 import task2.TestEntityStudent;
+import task3.TestEntityExeption;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) {
@@ -20,6 +20,7 @@ public class Main {
         System.out.println("---------------------------------------------------------------------------------");
         // End testing block of task1
 
+        //Testing block of task2
         List<TestEntityStudent> testData= new ArrayList<>();
         testData.add(TestEntityStudent.builder().name("Ivan").gender("male").mark(5l).build());
         testData.add(TestEntityStudent.builder().name("Petr").gender("male").mark(4l).build());
@@ -28,18 +29,15 @@ public class Main {
         testData.add(TestEntityStudent.builder().name("Igor").gender("male").mark(5l).build());
         testData.add(TestEntityStudent.builder().name("Olga").gender("female").mark(4l).build());
 
-        testData.stream().forEach(System.out::println);
-        System.out.println("-------------------------------------");
-        testData.stream().filter(x->x.getMark()==5).forEach(System.out::println);
-        System.out.println("-------------------------------------");
-        List<TestEntityStudent> testData1= new ArrayList<>();
-        testData1=testData.stream().filter(x->x.getMark()==4).collect(Collectors.toList());
-        testData1.stream().forEach(System.out::println);
-        System.out.println("------------------------------------------");
         GetCollectionsStudents getCollectionsStudents = new GetCollectionsStudents();
-        List<TestEntityStudent> testData2= new ArrayList<>();
-        testData2=getCollectionsStudents.getAllStudentsByMark(testData,4l);
-        testData2.stream().forEach(System.out::println);
+        testData=getCollectionsStudents.getAllStudentsByMark(testData,4l);
+        testData.stream().forEach(System.out::println);
+        //End testing block of task2
+
+       //Testing block of task3
+
+       //End testing block of task3
+
     }
 
     // The method generates a random number from x to y

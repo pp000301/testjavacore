@@ -1,13 +1,11 @@
 package task2;
 
-import lombok.Data;
 import org.junit.Assert;
 import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+
 public class GetCollectionsStudentsTest {
 
     @Test
