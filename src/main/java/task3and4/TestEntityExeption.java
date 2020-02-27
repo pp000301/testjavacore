@@ -1,4 +1,4 @@
-package task3;
+package task3and4;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
