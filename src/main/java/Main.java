@@ -1,3 +1,5 @@
+import lombok.Cleanup;
+import sun.security.krb5.internal.PAData;
 import task1.TestConditionalOperator;
 import task2.GetCollectionsStudents;
 import task2.TestEntityStudent;
@@ -5,17 +7,21 @@ import task3and4.TestEntityExeption;
 import task5.TestGeneric;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 import static task6.TestLambda.evaluate;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // Testing block of task1
         /*
         task checks whether the number is equal to 7
@@ -28,7 +34,7 @@ public class Main {
         System.out.println("Test number = " + testNumber);
         System.out.println("The result of checking whether the number is 7: " + testConditionalOperator.getTrueSevev(testNumber));
         System.out.println("Day of week: " + testConditionalOperator.getDayWeek(testNumber));
-        System.out.println("The number is even "+testConditionalOperator.getEven(testNumber));
+        System.out.println("The number is even " + testConditionalOperator.getEven(testNumber));
         System.out.println("---------------------------------------------------------------------------------");
         // End testing block of task1
 
@@ -51,8 +57,8 @@ public class Main {
         //Testing block of task3-4
         //Task find the number of characters in a string
         System.out.println("Enter the testing string:");
-        String s= input();
-        System.out.println("The count symbol:  "+ TestEntityExeption.getCountSymble(s,'f') );
+        String s = input();
+        System.out.println("The count symbol:  " + TestEntityExeption.getCountSymble(s, 'f'));
         //End testing block of task3
         System.out.println("---------------------------------------------------------------------------------");
 
@@ -61,9 +67,9 @@ public class Main {
         TestGeneric<String> st = new TestGeneric<>();
         List<String> list = Arrays.asList("test");
         st.test(list);
-        List<Integer> list1= Arrays.asList(1,2,3);
+        List<Integer> list1 = Arrays.asList(1, 2, 3);
         st.test(list1);
-        List<Double> list2= Arrays.asList(1.1,2.2,3.3);
+        List<Double> list2 = Arrays.asList(1.1, 2.2, 3.3);
         st.test(list2);
         //End testing block of task5
         System.out.println("---------------------------------------------------------------------------------");
@@ -73,20 +79,44 @@ public class Main {
         List<Integer> list3 = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
 
         System.out.print("Displays all numbers: ");
-        evaluate(list3, (n)->true);
+        evaluate(list3, (n) -> true);
 
         System.out.print("Does not output anything: ");
-        evaluate(list3, (n)->false);
+        evaluate(list3, (n) -> false);
 
         System.out.print("Displays is even numbers: ");
-        evaluate(list3, (n)-> n%2 == 0 );
+        evaluate(list3, (n) -> n % 2 == 0);
 
         System.out.print("Displays is not even numbers: ");
-        evaluate(list3, (n)-> n%2 == 1 );
+        evaluate(list3, (n) -> n % 2 == 1);
 
         System.out.print("Displays numbers more 5: ");
-        evaluate(list3, (n)-> n > 5 );
-        //End testing block of task5
+        evaluate(list3, (n) -> n > 5);
+        //End testing block of task6
+
+        //Testing block of task7
+        //Example of use NIO
+
+        String uri = "F:\\example.txt";
+
+        try {
+
+            File f = new File(uri);
+
+            if (f.createNewFile())
+                System.out.println("File created");
+            else
+                System.out.println("File already exists");
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+
+        Path path = Paths.get(uri);
+        Files.write(path, Collections.singleton("Test message!!!"));
+        List<String> resultString = Files.readAllLines(Paths.get(uri));
+        System.out.println(resultString);
+
+        //End testing block of task7
     }
 
     // The method generates a random number from x to y, used in the block task1.
