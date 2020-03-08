@@ -1,5 +1,3 @@
-import lombok.Cleanup;
-import sun.security.krb5.internal.PAData;
 import task1.TestConditionalOperator;
 import task2.GetCollectionsStudents;
 import task2.TestEntityStudent;
@@ -10,18 +8,24 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 import static task6.TestLambda.evaluate;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, SQLException {
         // Testing block of task1
         /*
         task checks whether the number is equal to 7
@@ -117,6 +121,51 @@ public class Main {
         System.out.println(resultString);
 
         //End testing block of task7
+
+        //Testing block of task8
+        //Example of use JDBC
+        //PostgreSQL
+        Connection connection = null;
+        String url = "jdbc:postgresql://ec2-54-217-235-87.eu-west-1.compute.amazonaws.com:5432/d2pec6je7msmae";
+        String name = "lfohkxhgbbgvwr";
+        String password = "7d63df0bf5f911df6a91a9cb7f1e2b4ecbcb1001d4053cf85dd4572475ad4adb";
+
+        try {
+            Class.forName("org.postgresql.Driver");
+            connection = DriverManager.getConnection(url, name, password);
+            Statement statement = connection.createStatement();
+            ResultSet result1 = statement.executeQuery(
+                    "SELECT * FROM test_entity");
+
+            while (result1.next()) {
+                System.out.println("Номер в выборке #" + result1.getRow()
+                        + "\t Номер в базе #" + result1.getInt("id")
+                        + "\t" + result1.getString("test_text"));
+            }
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        //End PostgreSQL
+
+        //H2 DB
+        String urlH2="jdbc:h2:mem:default";
+        try {
+            Class.forName("org.h2.Driver");
+            connection = DriverManager.getConnection(urlH2);
+            Statement statement = connection.createStatement();
+            ResultSet result1 = statement.executeQuery(
+                    "SELECT * FROM test_entity");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        //End H2 db
+
+
+        //End testing block of task8
+
     }
 
     // The method generates a random number from x to y, used in the block task1.
