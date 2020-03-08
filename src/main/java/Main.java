@@ -143,23 +143,62 @@ public class Main {
                         + "\t" + result1.getString("test_text"));
             }
 
+            statement.close();
+            connection.close();
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         //End PostgreSQL
 
         //H2 DB
-        String urlH2="jdbc:h2:mem:default";
+        String urlH2="jdbc:h2:~/test";
         try {
-            Class.forName("org.h2.Driver");
-            connection = DriverManager.getConnection(urlH2);
+            Class.forName ("org.h2.Driver");
+            connection = DriverManager.getConnection(urlH2,"sa","");
             Statement statement = connection.createStatement();
-            ResultSet result1 = statement.executeQuery(
-                    "SELECT * FROM test_entity");
+
+            String sql =  "CREATE TABLE   REGISTRATION " +
+                    "(id INTEGER not NULL, " +
+                    " first VARCHAR(255), " +
+                    " last VARCHAR(255), " +
+                    " age INTEGER, " +
+                    " PRIMARY KEY ( id ))";
+
+            statement.executeUpdate(sql);
+
+
+            sql = "INSERT INTO Registration " + "VALUES (100, 'Zara', 'Ali', 18)";
+
+            statement.executeUpdate(sql);
+            sql = "INSERT INTO Registration " + "VALUES (101, 'Mahnaz', 'Fatma', 25)";
+
+            statement.executeUpdate(sql);
+            sql = "INSERT INTO Registration " + "VALUES (102, 'Zaid', 'Khan', 30)";
+
+            statement.executeUpdate(sql);
+            sql = "INSERT INTO Registration " + "VALUES(103, 'Sumit', 'Mittal', 28)";
+
+            statement.executeUpdate(sql);
+
+            sql="SELECT * FROM Registration";
+
+            ResultSet result1 = statement.executeQuery(sql);
+
+            while (result1.next()) {
+                System.out.println("Номер в выборке #" + result1.getRow()
+                        + "\t Номер в базе #" + result1.getInt("id")
+                        + "\t" + result1.getString("first")
+                        +"\t" + result1.getString("last")
+                        +"\t Номер в базе #" + result1.getInt("age")
+                );
+            }
+
+                    statement.close();
+            connection.close();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
 
         //End H2 db
 
